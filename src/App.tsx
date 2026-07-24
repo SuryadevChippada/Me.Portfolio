@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "./hooks/usePrefersReducedMotion";
+import { usePreloadImages } from "./hooks/usePreloadImages";
 import { Grain } from "./components/Grain";
 import { AboutSide } from "./components/AboutSide";
 import { ProjectsSide } from "./components/ProjectsSide";
+import { projects } from "./data/projects";
+import { experience } from "./data/experience";
 
 type Side = "front" | "back";
+
+const COVER_IMAGE_URLS = [...projects.map((p) => p.coverImage), ...experience.map((e) => e.coverImage)];
 
 export default function App() {
   const [side, setSide] = useState<Side>("front");
@@ -13,6 +18,7 @@ export default function App() {
   const reducedMotion = usePrefersReducedMotion();
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
+  usePreloadImages(COVER_IMAGE_URLS);
 
   // The face not currently facing forward is still hit-testable and in the
   // accessibility tree despite backface-visibility:hidden, so it needs to be

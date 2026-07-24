@@ -8,6 +8,7 @@ export interface ExperienceEntry {
   labelColor: string;
   sleeveTitle: string;
   sleeveTagline: string;
+  coverImage: string | null;
 }
 
 export const experience: ExperienceEntry[] = [
@@ -26,6 +27,7 @@ export const experience: ExperienceEntry[] = [
     labelColor: "#8a6fb0",
     sleeveTitle: "flare",
     sleeveTagline: "cv & ai engineer",
+    coverImage: null,
   },
   {
     id: "xtrachallenge",
@@ -41,5 +43,6 @@ export const experience: ExperienceEntry[] = [
     labelColor: "#b0793f",
     sleeveTitle: "xtrachallenge",
     sleeveTagline: "uav competition",
+    coverImage: "/covers/xtrachallenge.png",
   },
 ];

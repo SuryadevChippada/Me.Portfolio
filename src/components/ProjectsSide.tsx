@@ -79,16 +79,29 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
             )}
             <div className="sleeve">
               <AnimatePresence mode="wait">
-                <motion.span
-                  key={displayProject.id}
-                  className="sleeve-title"
-                  initial={reducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                >
-                  {displayProject.title}
-                </motion.span>
+                {displayProject.coverImage ? (
+                  <motion.img
+                    key={displayProject.id}
+                    src={displayProject.coverImage}
+                    alt={`${displayProject.title} sleeve art`}
+                    className="sleeve-cover"
+                    initial={reducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reducedMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.18 }}
+                  />
+                ) : (
+                  <motion.span
+                    key={displayProject.id}
+                    className="sleeve-title"
+                    initial={reducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reducedMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.18 }}
+                  >
+                    {displayProject.title}
+                  </motion.span>
+                )}
               </AnimatePresence>
             </div>
           </div>

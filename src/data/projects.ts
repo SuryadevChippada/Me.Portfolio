@@ -23,7 +23,7 @@ export const projects: Project[] = [
     stack: ["pytorch", "opencv", "raspberry pi", "fastapi"],
     labelColor: "#c9622f",
     repoUrl: "https://github.com/SuryadevChippada/flare",
-    coverImage: null,
+    coverImage: "/covers/flare.png",
   },
   {
     id: "yolo26",

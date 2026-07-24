@@ -21,6 +21,20 @@ const BIO_PARAGRAPHS = [
 const CREDIT_LINES = ["python · pytorch", "fastapi · sqlite", "react · angular", "typescript", "raspberry pi"];
 const LANGUAGE_LINES = ["english · german", "telugu · hindi"];
 
+const EDUCATION = {
+  degree: "b.sc. computer science",
+  school: "tu darmstadt",
+  dateRange: "oct 2023 — present · 6th semester",
+  coursework: [
+    "artificial intelligence",
+    "automata & formal languages",
+    "digital design",
+    "functional & object-oriented programming",
+    "software engineering",
+    "visual computing",
+  ],
+};
+
 const LINKS = [
   { label: "github", href: "https://github.com/SuryadevChippada" },
   { label: "linkedin", href: "https://www.linkedin.com/in/suryadev-chippada" },
@@ -46,6 +60,7 @@ export function AboutSide({ onFlip }: AboutSideProps) {
   );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [lockedId, setLockedId] = useState<string | null>(null);
+  const [educationOpen, setEducationOpen] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
 
@@ -111,16 +126,29 @@ export function AboutSide({ onFlip }: AboutSideProps) {
                 )}
                 <div className="sleeve">
                   <AnimatePresence mode="wait">
-                    <motion.span
-                      key={displayEntry.id}
-                      className="sleeve-title"
-                      initial={reducedMotion ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={reducedMotion ? undefined : { opacity: 0 }}
-                      transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                    >
-                      {displayEntry.sleeveTitle}
-                    </motion.span>
+                    {displayEntry.coverImage ? (
+                      <motion.img
+                        key={displayEntry.id}
+                        src={displayEntry.coverImage}
+                        alt={`${displayEntry.sleeveTitle} sleeve art`}
+                        className="sleeve-cover"
+                        initial={reducedMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={reducedMotion ? undefined : { opacity: 0 }}
+                        transition={{ duration: reducedMotion ? 0 : 0.18 }}
+                      />
+                    ) : (
+                      <motion.span
+                        key={displayEntry.id}
+                        className="sleeve-title"
+                        initial={reducedMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={reducedMotion ? undefined : { opacity: 0 }}
+                        transition={{ duration: reducedMotion ? 0 : 0.18 }}
+                      >
+                        {displayEntry.sleeveTitle}
+                      </motion.span>
+                    )}
                   </AnimatePresence>
                 </div>
               </div>
@@ -169,6 +197,33 @@ export function AboutSide({ onFlip }: AboutSideProps) {
         <div className="meta-col">
           <div className="meta-label">credits</div>
           <LineBlock lines={CREDIT_LINES} />
+
+          <button
+            type="button"
+            className="meta-label meta-toggle"
+            onClick={() => setEducationOpen((open) => !open)}
+            aria-expanded={educationOpen}
+          >
+            education
+            <span className="meta-toggle-icon" aria-hidden="true">
+              {educationOpen ? "−" : "+"}
+            </span>
+          </button>
+          {educationOpen && (
+            <div className="edu-detail">
+              <p className="meta-value">
+                {EDUCATION.degree}
+                <br />
+                {EDUCATION.school}
+              </p>
+              <p className="edu-dates">{EDUCATION.dateRange}</p>
+              <ul className="edu-coursework">
+                {EDUCATION.coursework.map((course) => (
+                  <li key={course}>{course}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="meta-label">languages</div>
           <LineBlock lines={LANGUAGE_LINES} />
