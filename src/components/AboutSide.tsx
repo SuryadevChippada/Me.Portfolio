@@ -13,9 +13,9 @@ interface AboutSideProps {
 }
 
 const BIO_PARAGRAPHS = [
-  "i'm a computer science student at tu darmstadt. most of what i build sits at the point where a model stops being a notebook experiment and has to survive on real hardware.",
-  "i'm a founding member of flare darmstadt e.v., where i work on computer vision and ai — detection models for wildfire monitoring, running on edge devices rather than in the cloud.",
-  "the constraint is the interesting part. anything runs on a gpu. making it run on a raspberry pi, in the field, at night, is a different problem.",
+  "i'm a computer science student at tu darmstadt who enjoys building practical systems and exploring different areas of computer science.",
+  "as one of the founding members of flare darmstadt e.v., i gained hands-on experience in computer vision and ai by developing end-to-end yolo-based pipelines for aerial wildfire detection. this included working with python, opencv, pytorch, raspberry pi, and edge deployment, achieving sub-100ms inference latency on limited hardware.",
+  "i enjoy working on projects where software has to move beyond a notebook or prototype and perform reliably in real-world conditions. for me, the most interesting part is understanding the constraints, solving the engineering problems, and turning an idea into something that actually works.",
 ];
 
 const CREDIT_LINES = ["python · pytorch", "fastapi · sqlite", "react · angular", "typescript", "raspberry pi"];
