@@ -27,7 +27,7 @@ export const experience: ExperienceEntry[] = [
     labelColor: "#8a6fb0",
     sleeveTitle: "flare",
     sleeveTagline: "cv & ai engineer",
-    coverImage: null,
+    coverImage: "/covers/flare.png",
   },
   {
     id: "xtrachallenge",
