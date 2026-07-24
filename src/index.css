@@ -231,7 +231,8 @@ a {
 .content-col {
   flex: 1;
   min-width: 0;
-  min-height: 300px;
+  height: 300px;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -374,7 +375,8 @@ a {
 .exp-content-col {
   flex: 1;
   min-width: 0;
-  min-height: 545px;
+  height: 300px;
+  overflow-y: auto;
   position: relative;
 }
 
