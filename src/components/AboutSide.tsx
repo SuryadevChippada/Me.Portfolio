@@ -7,6 +7,7 @@ import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { ExperienceList } from "./ExperienceList";
 import { ExperienceDetail } from "./ExperienceDetail";
+import { GithubIcon, LinkedinIcon, EmailIcon } from "./SocialIcons";
 
 interface AboutSideProps {
   onFlip: () => void;
@@ -36,9 +37,9 @@ const EDUCATION = {
 };
 
 const LINKS = [
-  { label: "github", href: "https://github.com/SuryadevChippada" },
-  { label: "linkedin", href: "https://www.linkedin.com/in/suryadev-chippada" },
-  { label: "email", href: "mailto:chippadasurya8@gmail.com" },
+  { label: "github", href: "https://github.com/SuryadevChippada", Icon: GithubIcon },
+  { label: "linkedin", href: "https://www.linkedin.com/in/suryadev-chippada", Icon: LinkedinIcon },
+  { label: "email", href: "mailto:chippadasurya8@gmail.com", Icon: EmailIcon },
 ];
 
 function LineBlock({ lines }: { lines: string[] }) {
@@ -60,7 +61,6 @@ export function AboutSide({ onFlip }: AboutSideProps) {
   );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [lockedId, setLockedId] = useState<string | null>(null);
-  const [educationOpen, setEducationOpen] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
 
@@ -198,41 +198,35 @@ export function AboutSide({ onFlip }: AboutSideProps) {
           <div className="meta-label">credits</div>
           <LineBlock lines={CREDIT_LINES} />
 
-          <button
-            type="button"
-            className="meta-label meta-toggle"
-            onClick={() => setEducationOpen((open) => !open)}
-            aria-expanded={educationOpen}
-          >
-            education
-            <span className="meta-toggle-icon" aria-hidden="true">
-              {educationOpen ? "−" : "+"}
-            </span>
-          </button>
-          {educationOpen && (
-            <div className="edu-detail">
-              <p className="meta-value">
-                {EDUCATION.degree}
-                <br />
-                {EDUCATION.school}
-              </p>
-              <p className="edu-dates">{EDUCATION.dateRange}</p>
-              <ul className="edu-coursework">
-                {EDUCATION.coursework.map((course) => (
-                  <li key={course}>{course}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <div className="meta-label">education</div>
+          <div className="edu-detail">
+            <p className="meta-value">
+              {EDUCATION.degree}
+              <br />
+              {EDUCATION.school}
+            </p>
+            <p className="edu-dates">{EDUCATION.dateRange}</p>
+            <ul className="edu-coursework">
+              {EDUCATION.coursework.map((course) => (
+                <li key={course}>{course}</li>
+              ))}
+            </ul>
+          </div>
 
           <div className="meta-label">languages</div>
           <LineBlock lines={LANGUAGE_LINES} />
 
           <div className="meta-label">find me</div>
           <div className="meta-links">
-            {LINKS.map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
-                {link.label}
+            {LINKS.map(({ label, href, Icon }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                <motion.span
+                  className="social-icon"
+                  whileHover={reducedMotion ? undefined : { scale: 1.15, rotate: -8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
+                >
+                  <Icon />
+                </motion.span>
               </a>
             ))}
           </div>
