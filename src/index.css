@@ -470,37 +470,22 @@ a {
 }
 
 .meta-links {
-  font-size: 12px;
-  line-height: 1.9;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
 }
 
 .meta-links a {
+  display: flex;
+  align-items: center;
   color: var(--text-accent);
   text-decoration: none;
 }
 
-.meta-links a:hover {
-  text-decoration: underline;
-}
-
-.meta-toggle {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  font: inherit;
-}
-
-.meta-toggle-icon {
-  font-family: var(--font-mono);
+.social-icon {
+  display: inline-flex;
+  will-change: transform;
 }
 
 .edu-detail {
@@ -547,7 +532,6 @@ a {
 
 .track-row:focus-visible,
 .btn:focus-visible,
-.meta-toggle:focus-visible,
 .meta-links a:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
