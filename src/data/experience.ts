@@ -17,7 +17,7 @@ export const experience: ExperienceEntry[] = [
     role: "computer vision & ai engineer — founding member",
     organization: "flare darmstadt e.v.",
     location: "darmstadt · hybrid",
-    dateRange: "nov 2024 — present",
+    dateRange: "nov 2024 — april 2026",
     bullets: [
       "built real-time yolov8 pipeline for smoke/fire detection in uav footage (under 100ms inference latency)",
       "trained and fine-tuned object detection models on curated aerial datasets across varied lighting and smoke conditions",
@@ -34,7 +34,7 @@ export const experience: ExperienceEntry[] = [
     role: "uav competition — xtrachallenge 2025",
     organization: "universitat politècnica de valència, spain",
     location: "on-site",
-    dateRange: "jul 2025",
+    dateRange: "jul 08 — jul 11, 2025",
     bullets: [
       "participated in a national uav design and flight competition organised by xtra2 upv",
       "collaborated on system preparation and testing phases within an interdisciplinary student team",

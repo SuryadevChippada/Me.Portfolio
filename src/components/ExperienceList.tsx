@@ -22,9 +22,11 @@ export function ExperienceList({ onActivate, onDeactivate, onSelect }: Experienc
         >
           <span className="exp-row-main">
             <span className="track-title">{entry.role}</span>
-            <span className="exp-org">{entry.organization}</span>
+            <span className="exp-row-meta">
+              <span className="exp-org">{entry.organization}</span>
+              <span className="track-category">{entry.dateRange}</span>
+            </span>
           </span>
-          <span className="track-category">{entry.dateRange}</span>
         </button>
       ))}
     </div>
