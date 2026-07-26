@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
+import { useScrollHint } from "../hooks/useScrollHint";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { Tracklist } from "./Tracklist";
 import { ProjectDetail } from "./ProjectDetail";
+import { ScrollHint } from "./ScrollHint";
 
 interface ProjectsSideProps {
   onFlip: () => void;
@@ -20,6 +22,8 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const [lockedId, setLockedId] = useState<string | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const showScrollHint = useScrollHint(scrollRef, [lockedId]);
 
   const effectiveId = lockedId ?? activeId;
   const displayProject = projects.find((p) => p.id === effectiveId) ?? projects[0];
@@ -120,29 +124,32 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
         </div>
 
         <div className="content-col">
-          <AnimatePresence mode="wait">
-            {lockedId ? (
-              <motion.div
-                key="detail"
-                initial={reducedMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reducedMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2 }}
-              >
-                <ProjectDetail project={displayProject} onBack={dismiss} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="list"
-                initial={reducedMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reducedMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2 }}
-              >
-                <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="panel-scroll" ref={scrollRef}>
+            <AnimatePresence mode="wait">
+              {lockedId ? (
+                <motion.div
+                  key="detail"
+                  initial={reducedMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reducedMotion ? undefined : { opacity: 0 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.2 }}
+                >
+                  <ProjectDetail project={displayProject} onBack={dismiss} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list"
+                  initial={reducedMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reducedMotion ? undefined : { opacity: 0 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.2 }}
+                >
+                  <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <ScrollHint visible={showScrollHint} />
         </div>
       </div>
 
