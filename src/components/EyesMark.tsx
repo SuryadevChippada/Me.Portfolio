@@ -1,19 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
-const MAX_OFFSET = 4;
+const MAX_OFFSET = 1.4;
 
-// Pupil centers as percentages of the portrait's own box, measured from the
-// source art (public/avatar.png) — the original pupils were erased and
-// these overlays take their place so they can track the cursor.
-const LEFT_EYE = { x: 36.92, y: 50.99 };
-const RIGHT_EYE = { x: 62.19, y: 50.99 };
-
-// Same tracking approach as the old abstract mark: rAF-throttled mousemove,
-// applied as a plain CSS transform (Framer Motion's motion.g/circle silently
-// no-ops on these shapes in the installed version, so this sidesteps it).
+// Eyes track the cursor anywhere on the page. Position is read from
+// mousemove but only ever applied as a transform, rAF-gated so it costs at
+// most one measurement + one state update per frame. Plain CSS transition
+// rather than Framer Motion here — motion.g on this SVG shape silently
+// no-ops (no style ever gets applied), so a manual transform is the
+// reliable path for this one element.
 export function EyesMark() {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const frameRef = useRef<number | null>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const reducedMotion = usePrefersReducedMotion();
@@ -25,7 +22,7 @@ export function EyesMark() {
       if (frameRef.current !== null) return;
       frameRef.current = requestAnimationFrame(() => {
         frameRef.current = null;
-        const el = wrapRef.current;
+        const el = svgRef.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
         const dx = e.clientX - (rect.left + rect.width / 2);
@@ -42,16 +39,33 @@ export function EyesMark() {
     };
   }, [reducedMotion]);
 
-  const pupilStyle = {
-    transform: `translate(-50%, -50%) translate(${offset.x}px, ${offset.y}px)`,
+  const eyeStyle = {
+    transform: `translate(${offset.x}px, ${offset.y}px)`,
     transition: reducedMotion ? "none" : "transform 0.15s ease-out",
   };
 
   return (
-    <div ref={wrapRef} className="avatar-mark" aria-hidden="true">
-      <img src="/avatar.png" alt="" className="avatar-mark-img" />
-      <span className="avatar-pupil" style={{ ...pupilStyle, left: `${LEFT_EYE.x}%`, top: `${LEFT_EYE.y}%` }} />
-      <span className="avatar-pupil" style={{ ...pupilStyle, left: `${RIGHT_EYE.x}%`, top: `${RIGHT_EYE.y}%` }} />
-    </div>
+    <svg
+      ref={svgRef}
+      className="mark-svg"
+      width="38"
+      height="20"
+      viewBox="0 0 34 18"
+      fill="none"
+      aria-hidden="true"
+    >
+      {/* open-bottom arc */}
+      <path
+        d="M1.5 17V15C1.5 7.54 7.54 1.5 15 1.5H19C26.46 1.5 32.5 7.54 32.5 15V17"
+        stroke="var(--text-primary)"
+        strokeWidth="1.5"
+      />
+      <g style={eyeStyle}>
+        <circle cx="12.5" cy="13.5" r="1.75" fill="var(--text-primary)" />
+      </g>
+      <g style={eyeStyle}>
+        <circle cx="21.5" cy="13.5" r="1.75" fill="var(--text-primary)" />
+      </g>
+    </svg>
   );
 }
