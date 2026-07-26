@@ -1,14 +1,12 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
-import { useScrollHint } from "../hooks/useScrollHint";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { Tracklist } from "./Tracklist";
 import { ProjectDetail } from "./ProjectDetail";
-import { ScrollHint } from "./ScrollHint";
 
 interface ProjectsSideProps {
   onFlip: () => void;
@@ -22,8 +20,6 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const [lockedId, setLockedId] = useState<string | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const showScrollHint = useScrollHint(scrollRef, [lockedId]);
 
   const effectiveId = lockedId ?? activeId;
   const displayProject = projects.find((p) => p.id === effectiveId) ?? projects[0];
@@ -124,7 +120,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
         </div>
 
         <div className="content-col">
-          <div className="panel-scroll" ref={scrollRef}>
+          <div className="panel-scroll">
             <AnimatePresence mode="wait">
               {lockedId ? (
                 <motion.div
@@ -149,7 +145,6 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
               )}
             </AnimatePresence>
           </div>
-          <ScrollHint visible={showScrollHint} />
         </div>
       </div>
 

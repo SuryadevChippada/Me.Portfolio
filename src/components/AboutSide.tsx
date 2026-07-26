@@ -1,15 +1,13 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { experience } from "../data/experience";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
-import { useScrollHint } from "../hooks/useScrollHint";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { ExperienceList } from "./ExperienceList";
 import { ExperienceDetail } from "./ExperienceDetail";
 import { GithubIcon, LinkedinIcon, EmailIcon } from "./SocialIcons";
-import { ScrollHint } from "./ScrollHint";
 
 interface AboutSideProps {
   onFlip: () => void;
@@ -65,8 +63,6 @@ export function AboutSide({ onFlip }: AboutSideProps) {
   const [lockedId, setLockedId] = useState<string | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const showScrollHint = useScrollHint(scrollRef, [lockedId]);
 
   const effectiveId = lockedId ?? activeId;
   const displayEntry = experience.find((e) => e.id === effectiveId) ?? experience[0];
@@ -171,7 +167,7 @@ export function AboutSide({ onFlip }: AboutSideProps) {
             </div>
 
             <div className="content-col exp-content-col">
-              <div className="panel-scroll" ref={scrollRef}>
+              <div className="panel-scroll">
                 <AnimatePresence mode="wait">
                   {lockedId ? (
                     <motion.div
@@ -196,7 +192,6 @@ export function AboutSide({ onFlip }: AboutSideProps) {
                   )}
                 </AnimatePresence>
               </div>
-              <ScrollHint visible={showScrollHint} />
             </div>
           </div>
         </div>

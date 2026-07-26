@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "./hooks/usePrefersReducedMotion";
 import { usePreloadImages } from "./hooks/usePreloadImages";
+import { usePageScrollHint } from "./hooks/usePageScrollHint";
 import { Grain } from "./components/Grain";
 import { AboutSide } from "./components/AboutSide";
 import { ProjectsSide } from "./components/ProjectsSide";
+import { ScrollHint } from "./components/ScrollHint";
 import { projects } from "./data/projects";
 import { experience } from "./data/experience";
 
@@ -19,6 +21,7 @@ export default function App() {
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
   usePreloadImages(COVER_IMAGE_URLS);
+  const showPageScrollHint = usePageScrollHint();
 
   // The face not currently facing forward is still hit-testable and in the
   // accessibility tree despite backface-visibility:hidden, so it needs to be
@@ -52,6 +55,8 @@ export default function App() {
           </div>
         </motion.div>
       </div>
+
+      <ScrollHint visible={showPageScrollHint} className="scroll-hint-page" />
     </div>
   );
 }
