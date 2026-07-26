@@ -545,29 +545,11 @@ a {
   margin-top: 2px;
 }
 
-/* ---- avatar mark ---- */
+/* ---- eyes mark ---- */
 
-.avatar-mark {
-  position: relative;
-  flex-shrink: 0;
-  width: 44px;
-  height: 52px;
-}
-
-.avatar-mark-img {
+.mark-svg {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.avatar-pupil {
-  position: absolute;
-  width: 6px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--text-primary);
-  pointer-events: none;
+  flex-shrink: 0;
 }
 
 /* ---- grain ---- */
