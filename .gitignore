@@ -26,4 +26,8 @@ pnpm-debug.log*
 .claude/worktrees/
 .claude/
 
+# obsidian vault config (if src/content/log is opened as a vault)
 .obsidian/
+
+# demo/sample log post — not meant to be a real post
+src/content/log/log/hello.md
