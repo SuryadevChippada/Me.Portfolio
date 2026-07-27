@@ -56,7 +56,13 @@ export default function App() {
         </motion.div>
       </div>
 
-      <ScrollHint visible={showPageScrollHint} className="scroll-hint-page" />
+      <ScrollHint
+        visible={showPageScrollHint}
+        className="scroll-hint-page"
+        onClick={() =>
+          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" })
+        }
+      />
     </div>
   );
 }

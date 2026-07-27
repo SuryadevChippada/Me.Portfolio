@@ -179,7 +179,13 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
               </div>
             )}
           </div>
-          <ScrollHint visible={showScrollHint} className="scroll-hint-panel" />
+          <ScrollHint
+            visible={showScrollHint}
+            className="scroll-hint-panel"
+            onClick={() =>
+              panelScrollRef.current?.scrollTo({ top: panelScrollRef.current.scrollHeight, behavior: "smooth" })
+            }
+          />
         </div>
       </div>
 
