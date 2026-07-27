@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
@@ -78,72 +77,36 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
               </div>
             )}
             <div className="sleeve">
-              <AnimatePresence mode="wait">
-                {displayProject.coverImage ? (
-                  <motion.img
-                    key={displayProject.id}
-                    src={displayProject.coverImage}
-                    alt={`${displayProject.title} sleeve art`}
-                    className="sleeve-cover"
-                    initial={reducedMotion ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reducedMotion ? undefined : { opacity: 0 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                  />
-                ) : (
-                  <motion.span
-                    key={displayProject.id}
-                    className="sleeve-title"
-                    initial={reducedMotion ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reducedMotion ? undefined : { opacity: 0 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                  >
-                    {displayProject.title}
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              {displayProject.coverImage ? (
+                <img
+                  key={displayProject.id}
+                  src={displayProject.coverImage}
+                  alt={`${displayProject.title} sleeve art`}
+                  className="sleeve-cover fade-in"
+                />
+              ) : (
+                <span key={displayProject.id} className="sleeve-title fade-in">
+                  {displayProject.title}
+                </span>
+              )}
             </div>
           </div>
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={displayProject.id}
-              className="sleeve-caption"
-              initial={reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={reducedMotion ? undefined : { opacity: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.18 }}
-            >
-              {displayProject.tagline}
-            </motion.p>
-          </AnimatePresence>
+          <p key={displayProject.id} className="sleeve-caption fade-in">
+            {displayProject.tagline}
+          </p>
         </div>
 
         <div className="content-col">
           <div className="panel-scroll">
-            <AnimatePresence mode="wait">
-              {lockedId ? (
-                <motion.div
-                  key="detail"
-                  initial={reducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.2 }}
-                >
-                  <ProjectDetail project={displayProject} onBack={dismiss} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="list"
-                  initial={reducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.2 }}
-                >
-                  <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {lockedId ? (
+              <div key="detail" className="fade-in">
+                <ProjectDetail project={displayProject} onBack={dismiss} />
+              </div>
+            ) : (
+              <div key="list" className="fade-in">
+                <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+              </div>
+            )}
           </div>
         </div>
       </div>
