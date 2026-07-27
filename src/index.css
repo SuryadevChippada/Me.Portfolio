@@ -285,6 +285,97 @@ a {
   margin-top: 13px;
 }
 
+.view-tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.view-tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  background: none;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.view-tab:hover {
+  background: var(--row-hover);
+}
+
+.view-tab-active {
+  color: var(--text-primary);
+  border-color: var(--text-accent);
+}
+
+.log-body {
+  margin-top: 16px;
+}
+
+.log-heading {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 18px 0 6px;
+}
+
+.log-paragraph {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 10px 0;
+}
+
+.log-paragraph code,
+.log-quote code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--row-hover);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.log-list {
+  margin: 10px 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.log-list li + li {
+  margin-top: 4px;
+}
+
+.log-quote {
+  margin: 10px 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.log-code-block {
+  margin: 10px 0;
+  padding: 10px 12px;
+  background: var(--row-hover);
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.log-hr {
+  margin: 18px 0;
+  border: none;
+  border-top: 0.5px solid var(--border);
+}
+
 .tracklist {
   margin-top: 23px;
   border-top: 0.5px solid var(--border);
