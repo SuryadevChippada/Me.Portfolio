@@ -153,9 +153,8 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
             ) : (
               <div key="list" className="fade-in">
                 <h1 className="hero-line">
-                  <Typewriter text={"i make machines\nthat see."} />
+                  <Typewriter text="the workshop." />
                 </h1>
-                <p className="hero-sub">computer vision, edge inference, and the tooling around it.</p>
                 <div className="view-tabs">
                   <button
                     type="button"
