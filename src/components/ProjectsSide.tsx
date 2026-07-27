@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { projects } from "../data/projects";
+import { logEntries } from "../data/log";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
 import { useLockedHeight } from "../hooks/useLockedHeight";
@@ -8,15 +9,45 @@ import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { Tracklist } from "./Tracklist";
 import { ProjectDetail } from "./ProjectDetail";
+import { LogList } from "./LogList";
+import { LogDetail } from "./LogDetail";
 import { ScrollHint } from "./ScrollHint";
+import { Typewriter } from "./Typewriter";
 
 interface ProjectsSideProps {
   onFlip: () => void;
 }
 
+type View = "projects" | "log";
+
+interface SleeveItem {
+  id: string;
+  title: string;
+  tagline: string;
+  labelColor: string;
+  coverImage: string | null;
+}
+
+const projectItems: SleeveItem[] = projects.map((p) => ({
+  id: p.id,
+  title: p.title,
+  tagline: p.tagline,
+  labelColor: p.labelColor,
+  coverImage: p.coverImage,
+}));
+
+const logItems: SleeveItem[] = logEntries.map((e) => ({
+  id: e.slug,
+  title: e.title,
+  tagline: e.tagline,
+  labelColor: e.labelColor,
+  coverImage: e.coverImage,
+}));
+
 export function ProjectsSide({ onFlip }: ProjectsSideProps) {
+  const [view, setView] = useState<View>("projects");
   const [rotations, setRotations] = useState<Record<string, number>>(() =>
-    Object.fromEntries(projects.map((p) => [p.id, 0]))
+    Object.fromEntries([...projectItems, ...logItems].map((item) => [item.id, 0]))
   );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [lockedId, setLockedId] = useState<string | null>(null);
@@ -24,11 +55,18 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const compact = useIsCompact();
   const { ref: contentColRef, height: lockedHeight } = useLockedHeight<HTMLDivElement>();
   const panelScrollRef = useRef<HTMLDivElement>(null);
-  const showScrollHint = usePanelScrollHint(panelScrollRef, [lockedId]);
+  const showScrollHint = usePanelScrollHint(panelScrollRef, [lockedId, view]);
 
+  const items = view === "projects" ? projectItems : logItems;
   const effectiveId = lockedId ?? activeId;
-  const displayProject = projects.find((p) => p.id === effectiveId) ?? projects[0];
-  const lockedIndex = lockedId ? projects.findIndex((p) => p.id === lockedId) : -1;
+  const displayItem = items.find((item) => item.id === effectiveId) ?? items[0];
+  const lockedIndex = lockedId ? items.findIndex((item) => item.id === lockedId) : -1;
+
+  function switchView(next: View) {
+    setView(next);
+    setActiveId(null);
+    setLockedId(null);
+  }
 
   function activate(id: string) {
     setRotations((prev) => (activeId === id ? prev : { ...prev, [id]: prev[id] + 170 }));
@@ -51,6 +89,9 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
     setActiveId(null);
   }
 
+  const displayProject = view === "projects" ? projects.find((p) => p.id === displayItem?.id) : undefined;
+  const displayLogEntry = view === "log" ? logEntries.find((e) => e.slug === displayItem?.id) : undefined;
+
   return (
     <>
       <div className="frame-header">
@@ -61,7 +102,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
         <span className="corner-label">
           {lockedIndex >= 0
             ? `track ${String(lockedIndex + 1).padStart(2, "0")}`
-            : `${String(projects.length).padStart(2, "0")} tracks`}
+            : `${String(items.length).padStart(2, "0")} tracks`}
         </span>
       </div>
 
@@ -70,35 +111,35 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
           <div className="sleeve-stage">
             {!compact && (
               <div className="disc-layer">
-                {projects.map((p) => (
+                {items.map((item) => (
                   <Disc
-                    key={p.id}
-                    labelColor={p.labelColor}
-                    x={effectiveId === p.id ? 72 : 0}
-                    rotation={rotations[p.id]}
-                    zIndex={effectiveId === p.id ? 10 : 1}
+                    key={item.id}
+                    labelColor={item.labelColor}
+                    x={effectiveId === item.id ? 72 : 0}
+                    rotation={rotations[item.id] ?? 0}
+                    zIndex={effectiveId === item.id ? 10 : 1}
                     reducedMotion={reducedMotion}
                   />
                 ))}
               </div>
             )}
             <div className="sleeve">
-              {displayProject.coverImage ? (
+              {displayItem?.coverImage ? (
                 <img
-                  key={displayProject.id}
-                  src={displayProject.coverImage}
-                  alt={`${displayProject.title} sleeve art`}
+                  key={displayItem.id}
+                  src={displayItem.coverImage}
+                  alt={`${displayItem.title} sleeve art`}
                   className="sleeve-cover fade-in"
                 />
               ) : (
-                <span key={displayProject.id} className="sleeve-title fade-in">
-                  {displayProject.title}
+                <span key={displayItem?.id ?? "empty"} className="sleeve-title fade-in">
+                  {displayItem?.title ?? "—"}
                 </span>
               )}
             </div>
           </div>
-          <p key={displayProject.id} className="sleeve-caption fade-in">
-            {displayProject.tagline}
+          <p key={displayItem?.id ?? "empty"} className="sleeve-caption fade-in">
+            {displayItem?.tagline ?? ""}
           </p>
         </div>
 
@@ -106,11 +147,36 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
           <div className="panel-scroll" ref={panelScrollRef}>
             {lockedId ? (
               <div key="detail" className="fade-in">
-                <ProjectDetail project={displayProject} onBack={dismiss} />
+                {view === "projects" && displayProject && <ProjectDetail project={displayProject} onBack={dismiss} />}
+                {view === "log" && displayLogEntry && <LogDetail entry={displayLogEntry} onBack={dismiss} />}
               </div>
             ) : (
               <div key="list" className="fade-in">
-                <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+                <h1 className="hero-line">
+                  <Typewriter text={"i make machines\nthat see."} />
+                </h1>
+                <p className="hero-sub">computer vision, edge inference, and the tooling around it.</p>
+                <div className="view-tabs">
+                  <button
+                    type="button"
+                    className={`view-tab${view === "projects" ? " view-tab-active" : ""}`}
+                    onClick={() => switchView("projects")}
+                  >
+                    projects
+                  </button>
+                  <button
+                    type="button"
+                    className={`view-tab${view === "log" ? " view-tab-active" : ""}`}
+                    onClick={() => switchView("log")}
+                  >
+                    log
+                  </button>
+                </div>
+                {view === "projects" ? (
+                  <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+                ) : (
+                  <LogList onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+                )}
               </div>
             )}
           </div>
