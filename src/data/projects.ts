@@ -51,7 +51,7 @@ export const projects: Project[] = [
   },
   {
     id: "ppe",
-    title: "ppe",
+    title: "object detection - ppe",
     category: "vision",
     tagline: "construction ppe detection",
     description:
