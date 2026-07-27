@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { experience } from "../data/experience";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
@@ -125,72 +125,36 @@ export function AboutSide({ onFlip }: AboutSideProps) {
                   </div>
                 )}
                 <div className="sleeve">
-                  <AnimatePresence mode="wait">
-                    {displayEntry.coverImage ? (
-                      <motion.img
-                        key={displayEntry.id}
-                        src={displayEntry.coverImage}
-                        alt={`${displayEntry.sleeveTitle} sleeve art`}
-                        className="sleeve-cover"
-                        initial={reducedMotion ? false : { opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={reducedMotion ? undefined : { opacity: 0 }}
-                        transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                      />
-                    ) : (
-                      <motion.span
-                        key={displayEntry.id}
-                        className="sleeve-title"
-                        initial={reducedMotion ? false : { opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={reducedMotion ? undefined : { opacity: 0 }}
-                        transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                      >
-                        {displayEntry.sleeveTitle}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  {displayEntry.coverImage ? (
+                    <img
+                      key={displayEntry.id}
+                      src={displayEntry.coverImage}
+                      alt={`${displayEntry.sleeveTitle} sleeve art`}
+                      className="sleeve-cover fade-in"
+                    />
+                  ) : (
+                    <span key={displayEntry.id} className="sleeve-title fade-in">
+                      {displayEntry.sleeveTitle}
+                    </span>
+                  )}
                 </div>
               </div>
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={displayEntry.id}
-                  className="sleeve-caption"
-                  initial={reducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.18 }}
-                >
-                  {displayEntry.sleeveTagline}
-                </motion.p>
-              </AnimatePresence>
+              <p key={displayEntry.id} className="sleeve-caption fade-in">
+                {displayEntry.sleeveTagline}
+              </p>
             </div>
 
             <div className="content-col exp-content-col">
               <div className="panel-scroll">
-                <AnimatePresence mode="wait">
-                  {lockedId ? (
-                    <motion.div
-                      key="exp-detail"
-                      initial={reducedMotion ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={reducedMotion ? undefined : { opacity: 0 }}
-                      transition={{ duration: reducedMotion ? 0 : 0.2 }}
-                    >
-                      <ExperienceDetail entry={displayEntry} onBack={dismiss} />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="exp-list"
-                      initial={reducedMotion ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={reducedMotion ? undefined : { opacity: 0 }}
-                      transition={{ duration: reducedMotion ? 0 : 0.2 }}
-                    >
-                      <ExperienceList onActivate={activate} onDeactivate={deactivate} onSelect={select} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {lockedId ? (
+                  <div key="exp-detail" className="fade-in">
+                    <ExperienceDetail entry={displayEntry} onBack={dismiss} />
+                  </div>
+                ) : (
+                  <div key="exp-list" className="fade-in">
+                    <ExperienceList onActivate={activate} onDeactivate={deactivate} onSelect={select} />
+                  </div>
+                )}
               </div>
             </div>
           </div>

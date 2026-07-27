@@ -13,7 +13,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
       <p className="detail-desc">{project.description}</p>
       <p className="detail-stack">{project.stack.join(" · ")}</p>
       <div className="detail-actions">
-        <MagneticButton href={project.repoUrl}>view repo</MagneticButton>
+        {project.repoUrl && <MagneticButton href={project.repoUrl}>view repo</MagneticButton>}
         <button type="button" className="btn" onClick={onBack}>
           ← tracklist
         </button>
