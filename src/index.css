@@ -248,14 +248,26 @@ a {
 }
 
 .scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 4px;
   color: var(--text-muted);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.scroll-hint:hover {
+  color: var(--text-primary);
 }
 
 .scroll-hint-visible {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .scroll-hint-page {
