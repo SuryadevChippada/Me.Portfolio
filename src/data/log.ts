@@ -10,11 +10,11 @@ export interface LogEntry {
   content: string;
 }
 
-// Drop a new .md file in src/content/log/ and it shows up here automatically
-// — no other code changes needed. Frontmatter fields: title, tagline, date
-// (YYYY-MM-DD), labelColor (optional hex), coverImage (optional path under
-// public/covers/log/).
-const files = import.meta.glob("../content/log/*.md", {
+// Drop a new .md file anywhere under src/content/log/ (subfolders included —
+// an Obsidian vault works fine here) and it shows up automatically, no other
+// code changes needed. Frontmatter fields: title, tagline, date (YYYY-MM-DD),
+// labelColor (optional hex), coverImage (optional path under public/covers/log/).
+const files = import.meta.glob("../content/log/**/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
