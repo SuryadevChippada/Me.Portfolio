@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { experience } from "../data/experience";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
+import { useLockedHeight } from "../hooks/useLockedHeight";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { ExperienceList } from "./ExperienceList";
@@ -63,6 +64,7 @@ export function AboutSide({ onFlip }: AboutSideProps) {
   const [lockedId, setLockedId] = useState<string | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
+  const { ref: expContentColRef, height: lockedHeight } = useLockedHeight<HTMLDivElement>();
 
   const effectiveId = lockedId ?? activeId;
   const displayEntry = experience.find((e) => e.id === effectiveId) ?? experience[0];
@@ -144,7 +146,11 @@ export function AboutSide({ onFlip }: AboutSideProps) {
               </p>
             </div>
 
-            <div className="content-col exp-content-col">
+            <div
+              className="content-col exp-content-col"
+              ref={expContentColRef}
+              style={lockedHeight ? { height: lockedHeight } : undefined}
+            >
               <div className="panel-scroll">
                 {lockedId ? (
                   <div key="exp-detail" className="fade-in">

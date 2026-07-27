@@ -2,6 +2,7 @@ import { useState } from "react";
 import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
+import { useLockedHeight } from "../hooks/useLockedHeight";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { Tracklist } from "./Tracklist";
@@ -19,6 +20,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const [lockedId, setLockedId] = useState<string | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
+  const { ref: contentColRef, height: lockedHeight } = useLockedHeight<HTMLDivElement>();
 
   const effectiveId = lockedId ?? activeId;
   const displayProject = projects.find((p) => p.id === effectiveId) ?? projects[0];
@@ -96,7 +98,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
           </p>
         </div>
 
-        <div className="content-col">
+        <div className="content-col" ref={contentColRef} style={lockedHeight ? { height: lockedHeight } : undefined}>
           <div className="panel-scroll">
             {lockedId ? (
               <div key="detail" className="fade-in">
