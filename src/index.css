@@ -265,6 +265,12 @@ a {
   z-index: 101;
 }
 
+.scroll-hint-panel {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+}
+
 .hero-line {
   font-size: 28px;
   font-weight: 500;

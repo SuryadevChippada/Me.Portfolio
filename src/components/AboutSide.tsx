@@ -1,14 +1,16 @@
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { experience } from "../data/experience";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
 import { useLockedHeight } from "../hooks/useLockedHeight";
+import { usePanelScrollHint } from "../hooks/usePanelScrollHint";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { ExperienceList } from "./ExperienceList";
 import { ExperienceDetail } from "./ExperienceDetail";
 import { GithubIcon, LinkedinIcon, EmailIcon } from "./SocialIcons";
+import { ScrollHint } from "./ScrollHint";
 
 interface AboutSideProps {
   onFlip: () => void;
@@ -65,6 +67,8 @@ export function AboutSide({ onFlip }: AboutSideProps) {
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
   const { ref: expContentColRef, height: lockedHeight } = useLockedHeight<HTMLDivElement>();
+  const panelScrollRef = useRef<HTMLDivElement>(null);
+  const showScrollHint = usePanelScrollHint(panelScrollRef, [lockedId]);
 
   const effectiveId = lockedId ?? activeId;
   const displayEntry = experience.find((e) => e.id === effectiveId) ?? experience[0];
@@ -151,7 +155,7 @@ export function AboutSide({ onFlip }: AboutSideProps) {
               ref={expContentColRef}
               style={lockedHeight ? { height: lockedHeight } : undefined}
             >
-              <div className="panel-scroll">
+              <div className="panel-scroll" ref={panelScrollRef}>
                 {lockedId ? (
                   <div key="exp-detail" className="fade-in">
                     <ExperienceDetail entry={displayEntry} onBack={dismiss} />
@@ -162,6 +166,7 @@ export function AboutSide({ onFlip }: AboutSideProps) {
                   </div>
                 )}
               </div>
+              <ScrollHint visible={showScrollHint} className="scroll-hint-panel" />
             </div>
           </div>
         </div>

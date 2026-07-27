@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useIsCompact } from "../hooks/useIsCompact";
 import { useLockedHeight } from "../hooks/useLockedHeight";
+import { usePanelScrollHint } from "../hooks/usePanelScrollHint";
 import { EyesMark } from "./EyesMark";
 import { Disc } from "./Disc";
 import { Tracklist } from "./Tracklist";
 import { ProjectDetail } from "./ProjectDetail";
+import { ScrollHint } from "./ScrollHint";
 
 interface ProjectsSideProps {
   onFlip: () => void;
@@ -21,6 +23,8 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const reducedMotion = usePrefersReducedMotion();
   const compact = useIsCompact();
   const { ref: contentColRef, height: lockedHeight } = useLockedHeight<HTMLDivElement>();
+  const panelScrollRef = useRef<HTMLDivElement>(null);
+  const showScrollHint = usePanelScrollHint(panelScrollRef, [lockedId]);
 
   const effectiveId = lockedId ?? activeId;
   const displayProject = projects.find((p) => p.id === effectiveId) ?? projects[0];
@@ -99,7 +103,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
         </div>
 
         <div className="content-col" ref={contentColRef} style={lockedHeight ? { height: lockedHeight } : undefined}>
-          <div className="panel-scroll">
+          <div className="panel-scroll" ref={panelScrollRef}>
             {lockedId ? (
               <div key="detail" className="fade-in">
                 <ProjectDetail project={displayProject} onBack={dismiss} />
@@ -110,6 +114,7 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
               </div>
             )}
           </div>
+          <ScrollHint visible={showScrollHint} className="scroll-hint-panel" />
         </div>
       </div>
 
