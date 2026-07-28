@@ -8,7 +8,7 @@ interface LogListProps {
 
 export function LogList({ onActivate, onDeactivate, onSelect }: LogListProps) {
   if (logEntries.length === 0) {
-    return <p className="hero-sub">no posts yet — drop a .md file in src/content/log/.</p>;
+    return <p className="hero-sub">no posts yet.</p>;
   }
 
   return (
