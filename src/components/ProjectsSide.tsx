@@ -11,6 +11,7 @@ import { Tracklist } from "./Tracklist";
 import { ProjectDetail } from "./ProjectDetail";
 import { LogList } from "./LogList";
 import { LogDetail } from "./LogDetail";
+import { SkillsList, skillsFlatList } from "./SkillsList";
 import { ScrollHint } from "./ScrollHint";
 import { Typewriter } from "./Typewriter";
 
@@ -18,7 +19,7 @@ interface ProjectsSideProps {
   onFlip: () => void;
 }
 
-type View = "projects" | "log";
+type View = "projects" | "log" | "skills";
 
 interface SleeveItem {
   id: string;
@@ -44,10 +45,34 @@ const logItems: SleeveItem[] = logEntries.map((e) => ({
   coverImage: e.coverImage,
 }));
 
+const skillsItems: SleeveItem[] = skillsFlatList.map((s) => ({
+  id: s.id,
+  title: s.label,
+  tagline: "what i actually use",
+  labelColor: s.color,
+  coverImage: s.coverImage,
+}));
+
+const skillsIdle: SleeveItem = {
+  id: "__skills_idle__",
+  title: "skills",
+  tagline: "what i actually use",
+  labelColor: "#c9622f",
+  coverImage: "/covers/skills.png",
+};
+
+const logIdle: SleeveItem = {
+  id: "__log_idle__",
+  title: "log",
+  tagline: "",
+  labelColor: "#c9622f",
+  coverImage: "/covers/log.png",
+};
+
 export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const [view, setView] = useState<View>("projects");
   const [rotations, setRotations] = useState<Record<string, number>>(() =>
-    Object.fromEntries([...projectItems, ...logItems].map((item) => [item.id, 0]))
+    Object.fromEntries([...projectItems, ...logItems, ...skillsItems].map((item) => [item.id, 0]))
   );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [lockedId, setLockedId] = useState<string | null>(null);
@@ -57,9 +82,10 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
   const panelScrollRef = useRef<HTMLDivElement>(null);
   const showScrollHint = usePanelScrollHint(panelScrollRef, [lockedId, view]);
 
-  const items = view === "projects" ? projectItems : logItems;
+  const items = view === "projects" ? projectItems : view === "log" ? logItems : skillsItems;
+  const idleItem = view === "log" ? logIdle : view === "skills" ? skillsIdle : items[0];
   const effectiveId = lockedId ?? activeId;
-  const displayItem = items.find((item) => item.id === effectiveId) ?? items[0];
+  const displayItem = items.find((item) => item.id === effectiveId) ?? idleItem;
   const lockedIndex = lockedId ? items.findIndex((item) => item.id === lockedId) : -1;
 
   function switchView(next: View) {
@@ -165,17 +191,22 @@ export function ProjectsSide({ onFlip }: ProjectsSideProps) {
                   </button>
                   <button
                     type="button"
+                    className={`view-tab${view === "skills" ? " view-tab-active" : ""}`}
+                    onClick={() => switchView("skills")}
+                  >
+                    skills
+                  </button>
+                  <button
+                    type="button"
                     className={`view-tab${view === "log" ? " view-tab-active" : ""}`}
                     onClick={() => switchView("log")}
                   >
                     log
                   </button>
                 </div>
-                {view === "projects" ? (
-                  <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />
-                ) : (
-                  <LogList onActivate={activate} onDeactivate={deactivate} onSelect={select} />
-                )}
+                {view === "projects" && <Tracklist onActivate={activate} onDeactivate={deactivate} onSelect={select} />}
+                {view === "skills" && <SkillsList onActivate={activate} onDeactivate={deactivate} />}
+                {view === "log" && <LogList onActivate={activate} onDeactivate={deactivate} onSelect={select} />}
               </div>
             )}
           </div>

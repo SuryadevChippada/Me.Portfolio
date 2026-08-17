@@ -61,4 +61,16 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/SuryadevChippada/Object-Detection",
     coverImage: "/covers/object-detection.jpeg",
   },
+  {
+    id: "nodus",
+    title: "nodus",
+    category: "ai",
+    tagline: "local-first ai, mapped",
+    description:
+      "a local-first desktop app for thinking with ai as a map, not a transcript. every question and answer is a node on a canvas — branch from any point, keep every alternative path visible side by side, and see how an idea actually grew instead of scrolling to find it. nothing leaves the machine: every workspace is a local sqlite database.",
+    stack: ["react", "typescript", "tauri", "xyflow", "sqlite"],
+    labelColor: "#d9622e",
+    repoUrl: "https://github.com/SuryadevChippada/NODUS",
+    coverImage: "/covers/nodus.png",
+  },
 ];

@@ -22,7 +22,6 @@ const BIO_PARAGRAPHS = [
   "I enjoy working on projects where software has to move beyond a notebook or prototype and perform reliably in real-world conditions. for me, the most interesting part is understanding the constraints, solving the engineering problems, and turning an idea into something that actually works.",
 ];
 
-const CREDIT_LINES = ["python · pytorch", "fastapi · sqlite", "react · angular", "typescript", "raspberry pi"];
 const LANGUAGE_LINES = ["english · german", "telugu · hindi"];
 
 const EDUCATION = {
@@ -178,9 +177,6 @@ export function AboutSide({ onFlip }: AboutSideProps) {
         </div>
 
         <div className="meta-col">
-          <div className="meta-label">credits</div>
-          <LineBlock lines={CREDIT_LINES} />
-
           <div className="meta-label">education</div>
           <div className="edu-detail">
             <p className="meta-value">

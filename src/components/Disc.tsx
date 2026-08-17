@@ -21,7 +21,7 @@ export function Disc({ labelColor, x, rotation, zIndex, reducedMotion }: DiscPro
       aria-hidden="true"
       style={{ zIndex }}
       animate={{ x, rotate: rotation }}
-      transition={reducedMotion ? { duration: 0 } : { duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
+      transition={reducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
     >
       <span className="disc-groove" style={{ width: "80%" }} />
       <span className="disc-groove" style={{ width: "64%" }} />

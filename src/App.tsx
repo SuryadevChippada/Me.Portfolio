@@ -42,7 +42,7 @@ export default function App() {
         <motion.div
           className="frame-inner"
           animate={{ rotateY: side === "back" ? 180 : 0 }}
-          transition={reducedMotion ? { duration: 0 } : { duration: 0.85, ease: [0.4, 0.1, 0.2, 1] }}
+          transition={reducedMotion ? { duration: 0 } : { duration: 0.5, ease: [0.4, 0.1, 0.2, 1] }}
           onAnimationStart={() => setIsFlipping(true)}
           onAnimationComplete={() => setIsFlipping(false)}
           style={{ willChange: isFlipping ? "transform" : "auto" }}

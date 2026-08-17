@@ -388,6 +388,74 @@ a {
   border-top: 0.5px solid var(--border);
 }
 
+.tree-root {
+  margin-top: 23px;
+  list-style: none;
+}
+
+.tree-children {
+  list-style: none;
+  margin-left: 6px;
+  padding-left: 13px;
+  border-left: 0.5px solid var(--border);
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 4px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: default;
+  text-align: left;
+}
+
+.tree-row-folder {
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.tree-row-folder:hover {
+  background: var(--row-hover);
+}
+
+.tree-chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+
+.tree-row-open .tree-chevron {
+  transform: rotate(90deg);
+}
+
+.tree-row-folder svg:nth-of-type(2) {
+  color: var(--text-accent);
+  flex-shrink: 0;
+}
+
+.tree-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 17px;
+  width: 14px;
+  height: 14px;
+}
+
+.tree-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tree-label {
+  font-size: 13px;
+}
+
 .tracklist {
   margin-top: 23px;
   border-top: 0.5px solid var(--border);
